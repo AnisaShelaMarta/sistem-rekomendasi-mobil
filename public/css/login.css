@@ -1,0 +1,74 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  background: #fffdfd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container */
+.login-container {
+  width: 350px;
+  text-align: center;
+}
+
+/* Logo */
+.logo {
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+/* Title */
+h2 {
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 14px;
+}
+
+/* Fokus kayak di gambar */
+input:focus {
+  border: 1px solid #4a90e2;
+  box-shadow: 0 0 3px rgba(74,144,226,0.5);
+}
+
+/* Button */
+button {
+  margin-top: 10px;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: #1e66dc;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1553b7;
+}

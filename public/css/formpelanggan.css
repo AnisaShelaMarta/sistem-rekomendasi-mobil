@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body {
+    background: #eef1f6;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.card {
+    background: white;
+    width: 100%;
+    max-width: 900px;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.card img {
+    width: 100px;
+    margin-bottom: 15px;
+}
+
+.card h2 {
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.card p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    text-align: left;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full {
+    grid-column: span 2;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 14px;
+    background: white;
+}
+
+.btn {
+    margin-top: 25px;
+    padding: 12px 40px;
+    border: none;
+    border-radius: 10px;
+    background: #2d2f7f;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn:hover {
+    background: #1f2160;
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full {
+        grid-column: span 1;
+    }
+}
+.color-palette{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:10px;
+}
+
+.color-item{
+    cursor:pointer;
+}
+
+.color-item input{
+    display:none;
+}
+
+.color-box{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:2px solid #dcdcdc;
+    display:block;
+    transition:0.2s;
+}
+
+.color-item input:checked + .color-box{
+    border:4px solid #000;
+    transform:scale(1.15);
+}
+.warna-container{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:5px;
+}
+
+.warna-item input{
+    display:none;
+}
+
+.warna-box{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    border:2px solid #ccc;
+    cursor:pointer;
+    display:block;
+}
+
+.warna-item input:checked + .warna-box{
+    border:4px solid #2d2f7f;
+    transform:scale(1.1);
+}

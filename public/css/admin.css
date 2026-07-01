@@ -1,0 +1,159 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f1f5f9;
+}
+
+.wrapper{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:280px;
+    background:linear-gradient(180deg,#ffffff,#ffffff);
+    padding:20px;
+    position:fixed;
+    height:100vh;
+}
+
+.sidebar-box{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:20px;
+    padding:20px;
+}
+
+.sidebar-box h2{
+    color:rgb(0, 0, 0);
+    margin-bottom:30px;
+}
+
+.sidebar-box a{
+    display:block;
+    color:rgb(21, 20, 20);
+    text-decoration:none;
+    padding:14px;
+    margin-bottom:10px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.sidebar-box a:hover{
+    background:rgba(151, 107, 107, 0.15);
+}
+
+.content{
+    margin-left:280px;
+    width:100%;
+    padding:35px;
+}
+
+.dashboard-card{
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.top-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.action-buttons{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.import-form{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.file-label{
+    background:#f8fafc;
+    border:1px solid #dbeafe;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+input[type="file"]{
+    display:none;
+}
+
+.btn-import{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.btn-add{
+    background:#dc2626;
+    color:white;
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius:10px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#f8fafc;
+}
+
+th{
+    padding:15px;
+    text-align:left;
+    font-size:14px;
+}
+
+td{
+    padding:15px;
+    border-top:1px solid #e5e7eb;
+    font-size:14px;
+}
+
+tr:hover{
+    background:#f8fafc;
+}
+
+td:nth-child(8){
+    max-width:250px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.edit-btn{
+    background:#f59e0b;
+    color:white;
+    padding:8px 12px;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+.delete-btn{
+    background:#ef4444;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+}
