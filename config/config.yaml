@@ -1,0 +1,7 @@
+tunnel: 252715aa-c977-4156-9a10-4a95572bf497
+credentials-file: /home/cloudflared/config/252715aa-c977-4156-9a10-4a95572bf497.json
+
+ingress:
+  - hostname: sirekmobil.ta-ku.my.id
+    service: http://app:8000
+  - service: http_status:404
