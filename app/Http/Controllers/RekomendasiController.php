@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Mobil;
-
+use App\Models\Warna;
 
 class RekomendasiController extends Controller
 {
@@ -14,19 +14,21 @@ class RekomendasiController extends Controller
 
         $harga = $request->harga;
 
-$kapasitasMesin = $request->kapasitas_mesin;
+        $kapasitasMesin = $request->kapasitas_mesin;
 
-$penumpang = $request->kapasitas_penumpang;
+        $penumpang = $request->kapasitas_penumpang;
 
-$transmisi = $request->transmisi;
+        $transmisi = $request->transmisi;
 
-$tipe = $request->tipe;
+        $tipe = $request->tipe;
 
-$bahanBakar = $request->bahan_bakar;
+        $bahanBakar = $request->bahan_bakar;
 
-$warna = $request->warna;
-$userWarna = 1;
+        $warna = $request->warna;
 
+        // Ambil data warna yang dipilih user
+        $userWarna = Warna::findOrFail($warna);
+        $userWarnaNilai = 1;
 
         // AMBIL DATA MOBIL
         $mobils = Mobil::with('warnas')->get();
@@ -53,9 +55,9 @@ $userWarna = 1;
             ($maxMesin - $minMesin);
 
         $userPenumpang =
-    ($penumpang - $minPenumpang)
-    /
-    ($maxPenumpang - $minPenumpang);
+            ($penumpang - $minPenumpang)
+            /
+            ($maxPenumpang - $minPenumpang);
 
 
         // ONE HOT ENCODING
@@ -71,226 +73,239 @@ $userWarna = 1;
             strtolower($transmisi) == 'cvt'
             ? 1 : 0;
 
-// BAHAN BAKAR USER
-$userBensin =
-    strtolower($bahanBakar) == 'bensin'
-    ? 1 : 0;
+        // BAHAN BAKAR USER
+        $userBensin =
+            strtolower($bahanBakar) == 'bensin'
+            ? 1 : 0;
 
-$userDiesel =
-    strtolower($bahanBakar) == 'diesel'
-    ? 1 : 0;
-
-
-// JENIS USER
-
-$userMPV =
-    strtolower($tipe) == 'mpv'
-    ? 1 : 0;
-
-$userCrossover =
-    strtolower($tipe) == 'crossover'
-    ? 1 : 0;
-
-$userSUV =
-    strtolower($tipe) == 'suv'
-    ? 1 : 0;
-
-$userPickup =
-    strtolower($tipe) == 'pick up'
-    ? 1 : 0;
+        $userDiesel =
+            strtolower($bahanBakar) == 'diesel'
+            ? 1 : 0;
 
 
-        // VEKTOR USER
-      $vektorUser = [
+        // JENIS USER
 
-    round($userHarga, 3),
+        $userMPV =
+            strtolower($tipe) == 'mpv'
+            ? 1 : 0;
 
-    round($userMesin, 3),
+        $userCrossover =
+            strtolower($tipe) == 'crossover'
+            ? 1 : 0;
 
-    round($userPenumpang, 3),
+        $userSUV =
+            strtolower($tipe) == 'suv'
+            ? 1 : 0;
 
-    $userManual,
+        $userPickup =
+            strtolower($tipe) == 'pick up'
+            ? 1 : 0;
 
-    $userAutomatic,
 
-    $userCVT,
+                // VEKTOR USER
+            $vektorUser = [
 
-    $userBensin,
+            round($userHarga, 3),
 
-    $userDiesel,
+            round($userMesin, 3),
 
-    $userMPV,
+            round($userPenumpang, 3),
 
-    $userCrossover,
+            $userManual,
 
-    $userSUV,
+            $userAutomatic,
 
-    $userPickup,
+            $userCVT,
 
-    $userWarna,
-];
+            $userBensin,
 
-        $hasil = [];
-        foreach ($mobils as $mobil) {
-            $normalHarga =
-    ($mobil->harga - $minHarga)
-    /
-    ($maxHarga - $minHarga);
-    $normalMesin =
-    ($mobil->kapasitas_mesin - $minMesin)
-    /
-    ($maxMesin - $minMesin);
-    $normalPenumpang =
-    ($mobil->kapasitas_penumpang - $minPenumpang)
-    /
-    ($maxPenumpang - $minPenumpang);
-    $mobilManual =
-    strtolower($mobil->transmisi) == 'manual'
-    ? 1 : 0;
-    $mobilWarnaMatch = $mobil->warnas->contains('id', $warna) ? 1 : 0;
+            $userDiesel,
 
-// BAHAN BAKAR
-$mobilBensin =
-    strtolower($mobil->bahan_bakar) == 'bensin'
-    ? 1 : 0;
+            $userMPV,
 
-$mobilDiesel =
-    strtolower($mobil->bahan_bakar) == 'diesel'
-    ? 1 : 0;
+            $userCrossover,
 
-// JENIS MOBIL
-$mobilMPV =
-    strtolower($mobil->jenis) == 'mpv'
-    ? 1 : 0;
+            $userSUV,
 
-$mobilCrossover =
-    strtolower($mobil->jenis) == 'crossover'
-    ? 1 : 0;
+            $userPickup,
 
-$mobilSUV =
-    strtolower($mobil->jenis) == 'suv'
-    ? 1 : 0;
+            $userWarnaNilai,
+        ];
 
-$mobilPickup =
-    strtolower($mobil->jenis) == 'pick up'
-    ? 1 : 0;
+                $hasil = [];
+                foreach ($mobils as $mobil) {
+                    $normalHarga =
+            ($mobil->harga - $minHarga)
+            /
+            ($maxHarga - $minHarga);
+            $normalMesin =
+            ($mobil->kapasitas_mesin - $minMesin)
+            /
+            ($maxMesin - $minMesin);
+            $normalPenumpang =
+            ($mobil->kapasitas_penumpang - $minPenumpang)
+            /
+            ($maxPenumpang - $minPenumpang);
+            $mobilManual =
+            strtolower($mobil->transmisi) == 'manual'
+            ? 1 : 0;
+            $mobilWarnaSimilarity = 0;
 
-$mobilAutomatic =
-    strtolower($mobil->transmisi) == 'automatic'
-    ? 1 : 0;
+            foreach ($mobil->warnas as $warnaMobil) {
 
-$mobilCVT =
-    strtolower($mobil->transmisi) == 'cvt'
-    ? 1 : 0;
+                $similarity = $this->similarityWarna(
+                    $userWarna->kode_hex,
+                    $warnaMobil->kode_hex
+                );
+                if ($similarity > $mobilWarnaSimilarity) {
+                    $mobilWarnaSimilarity = $similarity;
+                }
+            }
 
-    $vektorMobil = [
-    round($normalHarga, 3),
-    round($normalMesin, 3),
-    round($normalPenumpang, 3),
+        // BAHAN BAKAR
+        $mobilBensin =
+            strtolower($mobil->bahan_bakar) == 'bensin'
+            ? 1 : 0;
 
-    $mobilManual,
-    $mobilAutomatic,
-    $mobilCVT,
+        $mobilDiesel =
+            strtolower($mobil->bahan_bakar) == 'diesel'
+            ? 1 : 0;
 
-    $mobilBensin,
-    $mobilDiesel,
+        // JENIS MOBIL
+        $mobilMPV =
+            strtolower($mobil->jenis) == 'mpv'
+            ? 1 : 0;
 
-    $mobilMPV,
-    $mobilCrossover,
-    $mobilSUV,
-    $mobilPickup,
+        $mobilCrossover =
+            strtolower($mobil->jenis) == 'crossover'
+            ? 1 : 0;
 
-    $mobilWarnaMatch
-];
+        $mobilSUV =
+            strtolower($mobil->jenis) == 'suv'
+            ? 1 : 0;
 
-$dotProduct = 0;
-    for ($i = 0; $i < count($vektorUser); $i++) {
+        $mobilPickup =
+            strtolower($mobil->jenis) == 'pick up'
+            ? 1 : 0;
 
-        $dotProduct +=
-            $vektorUser[$i]
-            *
-            $vektorMobil[$i];
-    }
+        $mobilAutomatic =
+            strtolower($mobil->transmisi) == 'automatic'
+            ? 1 : 0;
 
-$panjangUser = sqrt(
+        $mobilCVT =
+            strtolower($mobil->transmisi) == 'cvt'
+            ? 1 : 0;
 
-    array_sum(
+            $vektorMobil = [
+            round($normalHarga, 3),
+            round($normalMesin, 3),
+            round($normalPenumpang, 3),
 
-        array_map(function ($nilai) {
+            $mobilManual,
+            $mobilAutomatic,
+            $mobilCVT,
 
-            return pow($nilai, 2);
+            $mobilBensin,
+            $mobilDiesel,
 
-        }, $vektorUser)
-    )
-);
-$panjangMobil = sqrt(
+            $mobilMPV,
+            $mobilCrossover,
+            $mobilSUV,
+            $mobilPickup,
 
-    array_sum(
+            round($mobilWarnaSimilarity, 3)
+        ];
 
-        array_map(function ($nilai) {
+        $dotProduct = 0;
+            for ($i = 0; $i < count($vektorUser); $i++) {
 
-            return pow($nilai, 2);
+                $dotProduct +=
+                    $vektorUser[$i]
+                    *
+                    $vektorMobil[$i];
+            }
 
-        }, $vektorMobil)
-    )
-);
+        $panjangUser = sqrt(
 
-if (
-    $panjangUser == 0 ||
-    $panjangMobil == 0
-) {
+            array_sum(
 
-    $similarity = 0;
+                array_map(function ($nilai) {
 
-} else {
+                    return pow($nilai, 2);
 
-    $similarity =
-        $dotProduct
-        /
-        (
-            $panjangUser
-            *
-            $panjangMobil
+                }, $vektorUser)
+            )
         );
-}
-$hasil[] = [
+        $panjangMobil = sqrt(
 
-    'nama_mobil' => $mobil->nama_mobil,
+            array_sum(
 
-    'tipe_mobil' => $mobil->tipe_mobil,
+                array_map(function ($nilai) {
 
-    'similarity' => round($similarity, 3),
+                    return pow($nilai, 2);
 
-    'harga' => $mobil->harga,
+                }, $vektorMobil)
+            )
+        );
 
-    'transmisi' => $mobil->transmisi,
+        if (
+            $panjangUser == 0 ||
+            $panjangMobil == 0
+        ) {
 
-    'bahan_bakar' => $mobil->bahan_bakar,
+            $similarity = 0;
 
-    'kapasitas_mesin' => $mobil->kapasitas_mesin,
+        } else {
 
-    'kapasitas_penumpang' => $mobil->kapasitas_penumpang,
+            $similarity =
+                $dotProduct
+                /
+                (
+                    $panjangUser
+                    *
+                    $panjangMobil
+                );
+        }
+        $hasil[] = [
 
-    'warnas' => $mobil->warnas,
+            'nama_mobil' => $mobil->nama_mobil,
 
-    'gambar' => $mobil->gambar,
-];
-}
-usort($hasil, function ($a, $b) {
+            'tipe_mobil' => $mobil->tipe_mobil,
 
-    return $b['similarity']
-        <=>
-        $a['similarity'];
-});
-$hasil = array_filter(
-    $hasil,
-    function ($item) {
+            'similarity' => round($similarity, 3),
 
-        return $item['similarity'] >= 0.6;
-    }
-);
+            'harga' => $mobil->harga,
 
-// dd(array_slice($hasil, 0, 5));
+            'transmisi' => $mobil->transmisi,
+
+            'bahan_bakar' => $mobil->bahan_bakar,
+
+            'kapasitas_mesin' => $mobil->kapasitas_mesin,
+
+            'kapasitas_penumpang' => $mobil->kapasitas_penumpang,
+
+            'warnas' => $mobil->warnas,
+
+            'warna_similarity' => round($mobilWarnaSimilarity, 3),
+        ];
+        }
+        usort($hasil, function ($a, $b) {
+
+            return $b['similarity']
+                <=>
+                $a['similarity'];
+        });
+        $hasil = array_filter(
+            $hasil,
+            function ($item) {
+
+                return $item['similarity'] >= 0.6;
+            }
+        );
+
+        // dd(array_slice($hasil, 0, 5));
+      // dd(array_slice($hasil, 0, 5));
+
 return view(
     'detailrekomendasi',
     [
@@ -298,5 +313,36 @@ return view(
         'warnaDipilih' => $warna
     ]
 );
+}
+
+private function hexToRgb($hex)
+{
+    $hex = ltrim($hex, '#');
+
+    return [
+        'r' => hexdec(substr($hex, 0, 2)),
+        'g' => hexdec(substr($hex, 2, 2)),
+        'b' => hexdec(substr($hex, 4, 2)),
+    ];
+}
+
+private function similarityWarna($hex1, $hex2)
+{
+    $rgb1 = $this->hexToRgb($hex1);
+    $rgb2 = $this->hexToRgb($hex2);
+
+    $distance = sqrt(
+        pow($rgb1['r'] - $rgb2['r'], 2) +
+        pow($rgb1['g'] - $rgb2['g'], 2) +
+        pow($rgb1['b'] - $rgb2['b'], 2)
+    );
+
+    $maxDistance = sqrt(
+        pow(255, 2) +
+        pow(255, 2) +
+        pow(255, 2)
+    );
+
+    return 1 - ($distance / $maxDistance);
 }
 }

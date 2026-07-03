@@ -82,6 +82,10 @@
                 <b>Similarity :</b>
                 {{ $mobil['similarity'] }}
             </p>
+            <p>
+            <b>Similarity Warna :</b>
+            {{ $mobil['warna_similarity'] }}
+        </p>
 
             <p>
                 <b>Varian :</b>
